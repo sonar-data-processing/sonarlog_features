@@ -30,34 +30,35 @@ void Application::process_next_sample() {
     base::samples::Sonar sample;
     stream_.next<base::samples::Sonar>(sample);
 
-    std::vector<float> bearings_radians = rock_util::Utilities::get_radians(sample.bearings);
+    /* current frame */
+    std::vector<float> bearings = rock_util::Utilities::get_radians(sample.bearings);
+    float angle = bearings[bearings.size()-1];
+    uint32_t frame_height = 500;
+    uint32_t frame_width = base::MathUtil::aspect_ratio_width(angle, frame_height);
+    cv::Mat src = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
 
+    /* insonification removal */
 
+    /* preprocessing */
+    cv::Mat mat(sample.beam_count, sample.bin_count, CV_32F, (void*) sample.bins.data());
+    mat.convertTo(mat, CV_8U, 255);
 
-    // TargetTrack target_track(sample.bins, bearings_radians, sample.beam_count, sample.bin_count);
-    // target_track.apply();
-    //
-    //
-    // cv::Rect roi = target_track.horiz_roi();
-    //
-    // cv::Mat mat = cv::Mat(sample.bins).reshape(1, sample.beam_count);
-    //
-    // cv::Mat dst = cv::Mat::zeros(mat.size(), mat.type());
-    // mat(roi).copyTo(dst(roi));
-    //
-    // /* show result */
-    // float angle = bearings_radians[bearings_radians.size()-1];
-    // uint32_t frame_height = 600;
-    // uint32_t frame_width = base::MathUtil::aspect_ratio_width(angle, frame_height);
-    // std::vector<float> dst_bins = image_utils::mat2vector<float>(dst);
-    // cv::Mat dst_polar = sonar_util::Converter::convert2polar(dst_bins, bearings_radians,
-    //                                                          sample.bin_count, sample.beam_count,
-    //                                                          frame_width, frame_height);
+    cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(2.0, cv::Size(8, 8));
+    clahe->apply(mat, mat);
 
-    // cv::imshow("dst_bins", dst_polar);
-    // // cv::imshow("mat", dst);
-    // cv::waitKey(100);
+    /* denoising */
+    cv::medianBlur(mat, mat, 3);
 
+    /* convert back the processed frame */
+    mat.convertTo(mat, CV_32F, 1.0 / 255);
+    std::vector<float> bins;
+    bins.assign((float*) mat.datastart, (float*) mat.dataend);
+
+    /* show results */
+    cv::imshow("src", src);
+    cv::Mat dst = sonar_util::Converter::convert2polar(bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
+    cv::imshow("dst", dst);
+    cv::waitKey(100);
 }
 
 void Application::process_logfile() {

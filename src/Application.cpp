@@ -5,9 +5,9 @@
 #include "rock_util/SonarSampleConverter.hpp"
 #include "rock_util/Utilities.hpp"
 #include "sonarlog_slam/Application.hpp"
-#include "sonar_target_tracking/ImageUtils.hpp"
+#include "sonar_processing/ImageUtils.hpp"
 
-using namespace sonar_target_tracking;
+using namespace sonar_processing;
 
 namespace sonarlog_slam {
 
@@ -36,28 +36,7 @@ void Application::process_next_sample() {
     uint32_t frame_height = 500;
     uint32_t frame_width = base::MathUtil::aspect_ratio_width(angle, frame_height);
     cv::Mat src = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
-
-    /* insonification removal */
-
-    /* preprocessing */
-    cv::Mat mat(sample.beam_count, sample.bin_count, CV_32F, (void*) sample.bins.data());
-    mat.convertTo(mat, CV_8U, 255);
-
-    cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(2.0, cv::Size(8, 8));
-    clahe->apply(mat, mat);
-
-    /* denoising */
-    cv::medianBlur(mat, mat, 3);
-
-    /* convert back the processed frame */
-    mat.convertTo(mat, CV_32F, 1.0 / 255);
-    std::vector<float> bins;
-    bins.assign((float*) mat.datastart, (float*) mat.dataend);
-
-    /* show results */
     cv::imshow("src", src);
-    cv::Mat dst = sonar_util::Converter::convert2polar(bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
-    cv::imshow("dst", dst);
     cv::waitKey(100);
 }
 

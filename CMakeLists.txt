@@ -6,9 +6,9 @@ include ( "${WORKSPACE_DIR}/third_party/cmake/Gnuplot.cmake"  )
 
 add_project_dependency (base                  ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 add_project_dependency (rock_util             ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-add_project_dependency (sonar_target_tracking ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+add_project_dependency (sonar_processing ${WORKSPACE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-setup_headers ( sonar_target_tracking ${sonar_target_tracking_SOURCE_DIR} )
+setup_headers ( sonar_processing ${sonar_processing_SOURCE_DIR} )
 setup_headers ( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src" )
 
 include ( FindPkgConfig  )
@@ -29,7 +29,7 @@ set (
 file ( GLOB SRCS RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/*.cpp )
 list ( REMOVE_ITEM SRCS "src/main.cpp" )
 
-set ( SRCS ${SRCS} ${sonar_target_tracking_SOURCES} )
+set ( SRCS ${SRCS} ${sonar_processing_SOURCES} )
 
 pkg_check_modules(pocolog_cpp pocolog_cpp)
 
@@ -38,7 +38,7 @@ include_directories (
     ${base_INCLUDE_DIR}
     ${sonar_util_INCLUDE_DIR}
     ${rock_util_INCLUDE_DIR}
-    ${sonar_target_tracking_INCLUDE_DIR}
+    ${sonar_processing_INCLUDE_DIR}
     ${gnuplot_INCLUDE_DIR}
     ${ROCK_ROBOTICS_INCLUDE_DIR}
     ${EIGEN3_INCLUDE_DIR}
@@ -89,7 +89,13 @@ add_boost_test (
 )
 
 configure_file (
-    ${PROJECT_SOURCE_DIR}/scripts/example.sh.in
-    ${PROJECT_BINARY_DIR}/scripts/example.sh
+    ${PROJECT_SOURCE_DIR}/scripts/example0.sh.in
+    ${PROJECT_BINARY_DIR}/scripts/example0.sh
+    @ONLY
+)
+
+configure_file (
+    ${PROJECT_SOURCE_DIR}/scripts/example1.sh.in
+    ${PROJECT_BINARY_DIR}/scripts/example1.sh
     @ONLY
 )

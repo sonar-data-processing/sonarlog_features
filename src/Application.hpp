@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include "rock_util/LogReader.hpp"
-#include "sonar_target_tracking/TargetTrack.hpp"
+#include "sonar_processing/TargetTrack.hpp"
 #include "base/Plot.hpp"
 
 namespace sonarlog_slam {

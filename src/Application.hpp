@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <deque>
 #include "rock_util/LogReader.hpp"
 #include "sonar_processing/TargetTrack.hpp"
 #include "base/Plot.hpp"
@@ -38,6 +39,9 @@ private:
 
     static Application *instance_;
     std::auto_ptr<base::Plot> plot_;
+
+    cv::Mat rls_w1, rls_w2, rls_p1, rls_p2;
+    std::deque<cv::Mat> frames;
 };
 
 } /* namespace sonarlog_slam */

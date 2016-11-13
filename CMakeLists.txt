@@ -99,3 +99,9 @@ configure_file (
     ${PROJECT_BINARY_DIR}/scripts/example1.sh
     @ONLY
 )
+
+configure_file (
+    ${PROJECT_SOURCE_DIR}/scripts/example2.sh.in
+    ${PROJECT_BINARY_DIR}/scripts/example2.sh
+    @ONLY
+)

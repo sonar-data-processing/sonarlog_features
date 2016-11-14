@@ -2,11 +2,11 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
-#include "sonarlog_slam/ArgumentParser.hpp"
+#include "sonarlog_features/ArgumentParser.hpp"
 
 using namespace boost;
 
-namespace sonarlog_slam {
+namespace sonarlog_features {
 
 ArgumentParser::ArgumentParser()
     : input_files_()
@@ -79,4 +79,4 @@ std::string ArgumentParser::get_filename(std::string file_path) {
 }
 
 
-} /* namespace sonarlog_slam */
+} /* namespace sonarlog_features */

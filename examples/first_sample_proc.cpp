@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
-#include "sonarlog_slam/Application.hpp"
+#include "sonarlog_features/Application.hpp"
 #include "base/test_config.h"
 
-using namespace sonarlog_slam;
+using namespace sonarlog_features;
 
 int main(int argc, char const *argv[]) {
 

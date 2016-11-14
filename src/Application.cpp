@@ -4,7 +4,7 @@
 #include "sonar_util/Converter.hpp"
 #include "rock_util/SonarSampleConverter.hpp"
 #include "rock_util/Utilities.hpp"
-#include "sonarlog_slam/Application.hpp"
+#include "sonarlog_features/Application.hpp"
 #include "sonar_processing/ImageUtils.hpp"
 #include "sonar_processing/Preprocessing.hpp"
 #include "sonar_processing/Denoising.hpp"
@@ -12,7 +12,7 @@
 
 using namespace sonar_processing;
 
-namespace sonarlog_slam {
+namespace sonarlog_features {
 
 Application *Application::instance_ = NULL;
 

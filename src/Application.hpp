@@ -8,7 +8,7 @@
 #include "sonar_processing/TargetTrack.hpp"
 #include "base/Plot.hpp"
 
-namespace sonarlog_slam {
+namespace sonarlog_features {
 
 class Application {
 public:
@@ -44,7 +44,7 @@ private:
     std::deque<cv::Mat> frames;
 };
 
-} /* namespace sonarlog_slam */
+} /* namespace sonarlog_features */
 
 
 

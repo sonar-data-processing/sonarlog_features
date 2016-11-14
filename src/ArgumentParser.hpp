@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace sonarlog_slam {
+namespace sonarlog_features {
 
 class ArgumentParser {
 public:
@@ -37,6 +37,6 @@ private:
 
 };
 
-} /* namespace sonarlog_slam */
+} /* namespace sonarlog_features */
 
 #endif /* ArgumentParser_hpp */

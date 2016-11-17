@@ -68,17 +68,42 @@ target_link_libraries (
     ${LIBS}
 )
 
-add_executable (
-    first_sample_proc
-    examples/first_sample_proc.cpp
-    ${SRCS}
-)
+if (COMPILE_EXAMPLES)
 
-target_link_libraries (
-    first_sample_proc
-    ${LIBS}
-)
+    add_executable (
+        first_sample_proc
+        examples/first_sample_proc.cpp
+        ${SRCS}
+    )
 
+    target_link_libraries (
+        first_sample_proc
+        ${LIBS}
+    )
+
+    add_executable (
+        test_rls
+        examples/test_rls.cpp
+        ${SRCS}
+    )
+
+    target_link_libraries (
+        test_rls
+        ${LIBS}
+    )
+
+    add_executable (
+        test_homomorphic_filter
+        examples/test_homomorphic_filter.cpp
+        ${SRCS}
+    )
+
+    target_link_libraries (
+        test_homomorphic_filter
+        ${LIBS}
+    )
+
+endif(COMPILE_EXAMPLES)
 
 boost_test_init()
 

@@ -6,7 +6,10 @@
 #include <deque>
 #include "rock_util/LogReader.hpp"
 #include "sonar_processing/TargetTrack.hpp"
+#include "sonar_processing/Denoising.hpp"
 #include "base/Plot.hpp"
+
+using namespace sonar_processing;
 
 namespace sonarlog_features {
 
@@ -35,13 +38,10 @@ private:
 
     std::auto_ptr<rock_util::LogReader> reader_;
     rock_util::LogStream stream_;
-
+    denoising::RLS rls;
 
     static Application *instance_;
     std::auto_ptr<base::Plot> plot_;
-
-    cv::Mat rls_w1, rls_w2, rls_p1, rls_p2;
-    std::deque<cv::Mat> frames;
 };
 
 } /* namespace sonarlog_features */

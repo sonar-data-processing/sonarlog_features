@@ -103,6 +103,16 @@ if (COMPILE_EXAMPLES)
         ${LIBS}
     )
 
+    add_executable (
+        test_segmentation
+        examples/test_segmentation.cpp
+        ${SRCS}
+    )
+
+    target_link_libraries (
+        test_segmentation
+        ${LIBS}
+    )
 endif(COMPILE_EXAMPLES)
 
 boost_test_init()

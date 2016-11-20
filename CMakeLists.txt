@@ -71,17 +71,6 @@ target_link_libraries (
 if (COMPILE_EXAMPLES)
 
     add_executable (
-        first_sample_proc
-        examples/first_sample_proc.cpp
-        ${SRCS}
-    )
-
-    target_link_libraries (
-        first_sample_proc
-        ${LIBS}
-    )
-
-    add_executable (
         test_rls
         examples/test_rls.cpp
         ${SRCS}

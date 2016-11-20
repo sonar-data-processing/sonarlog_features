@@ -93,6 +93,17 @@ if (COMPILE_EXAMPLES)
     )
 
     add_executable (
+        test_legacy
+        examples/test_legacy.cpp
+        ${SRCS}
+    )
+
+    target_link_libraries (
+        test_legacy
+        ${LIBS}
+    )
+
+    add_executable (
         test_segmentation
         examples/test_segmentation.cpp
         ${SRCS}

@@ -82,6 +82,17 @@ if (COMPILE_EXAMPLES)
     )
 
     add_executable (
+        test_roi
+        examples/test_roi.cpp
+        ${SRCS}
+    )
+
+    target_link_libraries (
+        test_roi
+        ${LIBS}
+    )
+
+    add_executable (
         test_homomorphic_filter
         examples/test_homomorphic_filter.cpp
         ${SRCS}
@@ -100,6 +111,17 @@ if (COMPILE_EXAMPLES)
 
     target_link_libraries (
         test_legacy
+        ${LIBS}
+    )
+
+    add_executable (
+        test_mbfs
+        examples/test_mbfs.cpp
+        ${SRCS}
+    )
+
+    target_link_libraries (
+        test_mbfs
         ${LIBS}
     )
 

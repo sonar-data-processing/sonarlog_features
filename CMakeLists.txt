@@ -69,72 +69,15 @@ target_link_libraries (
 )
 
 if (COMPILE_EXAMPLES)
+    file ( GLOB EXAMPLES "${PROJECT_SOURCE_DIR}/examples/*.cpp")
 
-    add_executable (
-        test_rls
-        examples/test_rls.cpp
-        ${SRCS}
-    )
+    foreach(FILENAME ${EXAMPLES})
+        get_filename_component (FILE ${FILENAME} NAME)
+        get_filename_component (FILE_WE ${FILENAME} NAME_WE)
+        add_executable (${FILE_WE} examples/${FILE} ${SRCS})
+        target_link_libraries (${FILE_WE} ${LIBS})
+    endforeach()
 
-    target_link_libraries (
-        test_rls
-        ${LIBS}
-    )
-
-    add_executable (
-        test_roi
-        examples/test_roi.cpp
-        ${SRCS}
-    )
-
-    target_link_libraries (
-        test_roi
-        ${LIBS}
-    )
-
-    add_executable (
-        test_homomorphic_filter
-        examples/test_homomorphic_filter.cpp
-        ${SRCS}
-    )
-
-    target_link_libraries (
-        test_homomorphic_filter
-        ${LIBS}
-    )
-
-    add_executable (
-        test_legacy
-        examples/test_legacy.cpp
-        ${SRCS}
-    )
-
-    target_link_libraries (
-        test_legacy
-        ${LIBS}
-    )
-
-    add_executable (
-        test_mbfs
-        examples/test_mbfs.cpp
-        ${SRCS}
-    )
-
-    target_link_libraries (
-        test_mbfs
-        ${LIBS}
-    )
-
-    add_executable (
-        test_segmentation
-        examples/test_segmentation.cpp
-        ${SRCS}
-    )
-
-    target_link_libraries (
-        test_segmentation
-        ${LIBS}
-    )
 endif(COMPILE_EXAMPLES)
 
 boost_test_init()

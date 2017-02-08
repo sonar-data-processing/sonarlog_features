@@ -5,7 +5,7 @@
 #include "rock_util/LogReader.hpp"
 #include "rock_util/SonarSampleConverter.hpp"
 #include "rock_util/Utilities.hpp"
-#include "sonar_processing/ImageUtils.hpp"
+#include "sonar_processing/ImageUtil.hpp"
 #include "sonar_processing/Preprocessing.hpp"
 #include "sonar_util/Converter.hpp"
 #include "sonarlog_features/Application.hpp"
@@ -88,7 +88,7 @@ int main(int argc, char const *argv[]) {
 
 cv::Mat create_mask_new(cv::Mat grad, cv::Mat roi) {
     cv::Mat thresh;
-    cv::threshold(grad, thresh, image_utils::otsu_thresh_8u(grad) * 0.6, 255, CV_THRESH_BINARY);
+    cv::threshold(grad, thresh, image_util::otsu_thresh_8u(grad) * 0.6, 255, CV_THRESH_BINARY);
     preprocessing::remove_blobs(thresh, thresh, cv::Size(20, 20));
 
     /* segmentation - mask */

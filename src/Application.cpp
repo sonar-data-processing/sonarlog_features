@@ -5,7 +5,7 @@
 #include "rock_util/SonarSampleConverter.hpp"
 #include "rock_util/Utilities.hpp"
 #include "sonarlog_features/Application.hpp"
-#include "sonar_processing/ImageUtils.hpp"
+#include "sonar_processing/ImageUtil.hpp"
 #include "sonar_processing/Preprocessing.hpp"
 #include "sonar_processing/QualityMetrics.hpp"
 
@@ -46,20 +46,20 @@ void Application::process_next_sample() {
     cv::Mat enhanced;
     preprocessing::adaptative_clahe(src, enhanced);
 
-    /* denoising process */
-    cv::Mat denoised;
-    rls.sliding_window(enhanced, denoised);
-
-    /* convert to cartesian plane */
-    src.convertTo(src, CV_32F, 1.0 / 255.0);
-    sample.bins.assign((float*) src.datastart, (float*) src.dataend);
-    cv::Mat out1 = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
-    sample.bins.assign((float*) denoised.datastart, (float*) denoised.dataend);
-    cv::Mat out2 = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
-
-    cv::Mat out;
-    cv::hconcat(out1, out2, out);
-    cv::imshow("out", out);
+    // /* denoising process */
+    // cv::Mat denoised;
+    // rls.sliding_window(enhanced, denoised);
+    //
+    // /* convert to cartesian plane */
+    // src.convertTo(src, CV_32F, 1.0 / 255.0);
+    // sample.bins.assign((float*) src.datastart, (float*) src.dataend);
+    // cv::Mat out1 = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
+    // sample.bins.assign((float*) denoised.datastart, (float*) denoised.dataend);
+    // cv::Mat out2 = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
+    //
+    // cv::Mat out;
+    // cv::hconcat(out1, out2, out);
+    // cv::imshow("out", out);
 
     cv::waitKey(10);
 }
@@ -72,7 +72,7 @@ void Application::process_logfile() {
 }
 
 void Application::plot(cv::Mat mat) {
-    (*plot_)(image_utils::mat2vector<float>(mat));
+    (*plot_)(image_util::mat2vector<float>(mat));
 }
 
 }

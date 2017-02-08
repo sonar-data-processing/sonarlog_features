@@ -18,6 +18,8 @@ int main(int argc, char const *argv[]) {
 
     const std::string logfiles[] = {
         "/arquivos/Logs/gemini/dataset_gustavo/logs/20160316-1127-06925_07750-gemini.0.log",
+        // DATA_PATH_STRING + "/logs/gemini-marina.0.log",
+        // DATA_PATH_STRING + "/logs/gemini-harbor.2.log",
     };
 
     uint32_t sz = sizeof(logfiles) / sizeof(std::string);
@@ -39,20 +41,13 @@ int main(int argc, char const *argv[]) {
 
             /* current frame */
             cv::Mat input(sample.beam_count, sample.bin_count, CV_32F, (void*) sample.bins.data());
-            input.convertTo(input, CV_8U, 255);
-
-            /* image enhancement */
-            cv::Mat enhanced;
-            preprocessing::adaptative_clahe(input, enhanced);
 
             /* denoising process */
-            cv::Mat denoised_standard, denoised_fixed, denoised_adaptative;
-            rls1.infinite_window(enhanced, denoised_standard);
-            rls2.sliding_window(enhanced, denoised_fixed);
-            rls3.adaptative_window(enhanced, denoised_adaptative);
+            cv::Mat denoised_standard = rls1.infinite_window(input);
+            cv::Mat denoised_fixed = rls2.sliding_window(input);
+            cv::Mat denoised_adaptative = rls3.adaptative_window(input);
 
             /* output results */
-            input.convertTo(input, CV_32F, 1.0 / 255.0);
             sample.bins.assign((float*) input.datastart, (float*) input.dataend);
             cv::Mat out1 = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
             sample.bins.assign((float*) denoised_standard.datastart, (float*) denoised_standard.dataend);
@@ -66,10 +61,9 @@ int main(int argc, char const *argv[]) {
             out1.push_back(out2);
             out3.push_back(out4);
             cv::hconcat(out1, out3, out);
-            cv::resize(out, out, cv::Size(out.cols * 0.75, out.rows * 0.75));
-
+            cv::resize(out, out, cv::Size(out.cols * 0.6, out.rows * 0.6));
             cv::imshow("out", out);
-            cv::waitKey(25);
+            cv::waitKey(50);
         }
     }
 

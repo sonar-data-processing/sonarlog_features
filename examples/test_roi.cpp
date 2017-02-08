@@ -40,20 +40,15 @@ int main(int argc, char const *argv[]) {
             cv::Mat cart_image = sonar_util::Converter::convert2polar(sample.bins, bearings, sample.bin_count, sample.beam_count, frame_width, frame_height);
 
             /* roi masks - cartesian and polar planes */
-            cv::Mat cart_roi_mask, polar_roi_mask;
+            cv::Mat cart_roi_mask, polar_roi_mask, cart_roi;
             preprocessing::extract_roi_masks(cart_image, bearings, sample.bin_count, sample.beam_count, cart_roi_mask, polar_roi_mask);
+            cart_image.copyTo(cart_roi, cart_roi_mask);
 
-            /* output - cartesian*/
-            cv::Mat cart;
-            cart_image.copyTo(cart, cart_roi_mask);
-            cv::imshow("cart", cart);
-
-            /* output - polar */
-            cv::Mat polar_image(sample.beam_count, sample.bin_count, CV_32F, (void*) sample.bins.data());
-            cv::Mat polar;
-            polar_image.copyTo(polar, polar_roi_mask);
-            cv::imshow("polar", polar);
-            cv::waitKey(50);
+            /* output */
+            cv::Mat out;
+            cv::hconcat(cart_image, cart_roi, out);
+            cv::imshow("out", out);
+            cv::waitKey(30);
         }
         cv::waitKey();
     }

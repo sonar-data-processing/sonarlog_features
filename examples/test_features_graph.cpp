@@ -75,8 +75,8 @@ cv::Mat extractFeatures(cv::Mat input, FeatureType type) {
         case SIFT_F: {
                 detector = cv::FeatureDetector::create("SIFT");
                 detector->detect(input, keypoints);
-                cv::drawKeypoints(input, keypoints, output);
             }
+            cv::drawKeypoints(input, keypoints, output);
             break;
         case SURF_F: {
                 detector = cv::FeatureDetector::create("SURF");

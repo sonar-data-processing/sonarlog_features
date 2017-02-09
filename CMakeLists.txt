@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.8)
 project (sonarlog_features)
 
+option (COMPILE_EXAMPLES            OFF)
+option (COMPILE_FEATURES_EXTRACTION OFF)
+
 include ( "${WORKSPACE_DIR}/base/cmake/Dependencies.cmake"  )
 include ( "${WORKSPACE_DIR}/third_party/cmake/Gnuplot.cmake"  )
 
@@ -78,7 +81,7 @@ target_link_libraries (
 )
 
 if (COMPILE_EXAMPLES)
-    file ( GLOB EXAMPLES "${PROJECT_SOURCE_DIR}/examples/*.cpp")
+    file ( GLOB EXAMPLES "${PROJECT_SOURCE_DIR}/examples/[^test_features_graph]*.cpp")
 
     foreach(FILENAME ${EXAMPLES})
         get_filename_component (FILE ${FILENAME} NAME)
@@ -88,6 +91,14 @@ if (COMPILE_EXAMPLES)
     endforeach()
 
 endif(COMPILE_EXAMPLES)
+
+if (COMPILE_FEATURES_EXTRACTION)
+
+    message ( STATUS "Compile Feature extraction")
+    add_executable (sonarlog_features-extraction examples/test_features_extracton.cpp ${SRCS})
+    target_link_libraries (sonarlog_features-extraction ${LIBS})
+
+endif(COMPILE_FEATURES_EXTRACTION)
 
 boost_test_init()
 
